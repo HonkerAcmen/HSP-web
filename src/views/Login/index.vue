@@ -1,9 +1,8 @@
 <template>
-
     <body>
         <div class="sky">
             <div class="box">
-                <div class="title"><span>Login</span>
+                <div class="title"><span>停机坪</span>
                     <p>欢迎回来</p>
                 </div>
                 <el-input v-model="account" style="width: 300px;" placeholder="请输入电子邮箱" />
