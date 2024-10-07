@@ -117,7 +117,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 async function register(){
     const data = {
         email : ruleForm.email,
-        passworld : ruleForm.pass
+        password : ruleForm.pass
     }
     try{
         const res = await axios.post(ServerAddress+"/api/register", data)

@@ -1,6 +1,8 @@
 *{
     margin: 0;
     padding: 0;
+    font-family: Inter, 'Helvetica Neue', Helvetica, 'PingFang SC',
+  'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
 }
 
 :root {
@@ -13,4 +15,5 @@
     
     --el-text-color-regular: var(--text-color);
     --el-color-danger: var(--accent-color);
+    
 }
