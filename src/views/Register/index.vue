@@ -29,6 +29,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import axios from 'axios';
+import { ServerAddress } from '@/utils/serverURL';
+import router from '@/router';
+
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -99,11 +103,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     console.log('Submitting form...')
     formEl.validate((valid) => {
         if (valid) {
-            console.log('submit!')
-            ElMessage({
-                message: '提交成功！',
-                type: 'success',
-            });
+            register()
         } else {
             console.log('error submit!')
             ElMessage({
@@ -112,6 +112,33 @@ const submitForm = (formEl: FormInstance | undefined) => {
             });
         }
     })
+}
+
+async function register(){
+    const data = {
+        email : ruleForm.email,
+        passworld : ruleForm.pass
+    }
+    try{
+        const res = await axios.post(ServerAddress+"/api/register", data)
+        console.log("Register.vue Register() ===> ", res.data,data)
+        // console.log(axios.defaults.headers)
+        if (res.data.code != 201){
+            ElMessage({
+                message: res.data.message,
+                type:"error"
+            })
+        }else{
+            ElMessage({
+                message: res.data.message,
+                type: "success"
+            })
+            localStorage.setItem("token", res.data.data)
+            router.push("/")
+        }
+    }catch (err : any){
+        console.log("Register.vue Register() error ===> ", err.data)
+    }
 }
 
 </script>
