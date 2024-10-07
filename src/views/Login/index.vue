@@ -6,10 +6,10 @@
                     <p>欢迎回来</p>
                 </div>
                 <el-input v-model="account" style="width: 300px;" placeholder="请输入电子邮箱" />
-                <el-link type="info" :underline=false style="transition: 0.3s;">忘记密码？</el-link>
+                <el-link type="info" :underline=false style="transition: 0.3s;" href="/register">忘记密码？</el-link>
                 <el-input v-model="passwd" style="width: 300px" type="password" placeholder="请输入密码" show-password />
                 <div class="login-button" @click="Login"><span>登陆</span></div>
-                <el-link type="info" style="transition: 0.3s;">没有账号？点击注册</el-link>
+                <el-link type="info" style="transition: 0.3s;" href="/register" :underline="false">没有账号？点击注册</el-link>
             </div>
             <div class="paper-plane plane-1"></div>
             <div class="paper-plane plane-2"></div>

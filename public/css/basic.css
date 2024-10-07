@@ -4,10 +4,13 @@
 }
 
 :root {
-    --primary-color: #3498db;  /* 主要颜色 */
-    --secondary-color: #2ecc71; /* 次要颜色 */
-    --accent-color: #e74c3c; /* 突出颜色 */
-    --background-color: #ecf0f1; /* 背景颜色 */
-    --text-color: #2c3e50; /* 文本颜色 */
-    --text-sub-color: #39526a; /* 次文本颜色 */
+    --primary-color: #87CEEB;  
+    --secondary-color: #2ecc71; 
+    --accent-color: #f45d4c; 
+    --background-color: #ecf0f1; 
+    --text-color: #2c3e50; 
+    --text-sub-color: #39526a; 
+    
+    --el-text-color-regular: var(--text-color);
+    --el-color-danger: var(--accent-color);
 }
