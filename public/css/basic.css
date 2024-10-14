@@ -5,6 +5,17 @@
   'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
 }
 
+ul,li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+    color: var(--text-color);
+}
+
 :root {
     --primary-color: #87CEEB;  
     --secondary-color: #2ecc71; 
@@ -15,5 +26,6 @@
     
     --el-text-color-regular: var(--text-color);
     --el-color-danger: var(--accent-color);
-    
+    --el-color-primary:#87CEEB;
+
 }
