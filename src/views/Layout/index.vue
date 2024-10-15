@@ -1,26 +1,6 @@
 <template>
     <div class="common-layout">
-        <div class="container">
-            <div class="head">
-                <ul>
-                    <li><span><a href="#">作业</a></span></li>
-                    <li><span><a href="#">课程</a></span></li>
-                </ul>
-                <div class="paper-plane plane-1"></div>
-                <el-dropdown>
-                    <el-avatar :icon="UserFilled" />
-                    <template #dropdown>
-                        <el-dropdown-menu>
-                            <el-dropdown-item>个人主页</el-dropdown-item>
-                            <el-dropdown-item>个人资料设置</el-dropdown-item>
-                            <el-dropdown-item @click="out">登出</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </template>
-                </el-dropdown>
-
-            </div>
-
-        </div>
+        <header-nav @logout="headleLogout"></header-nav>
         <div class="container-2">
             <div class="sub-title"><p>欢迎来到纸飞机<br>你现在可以…</p></div>
             <div class="cards">
@@ -37,11 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import { UserFilled } from '@element-plus/icons-vue'
+import HeaderNav from '@/components/HeaderNav.vue'
 import create_pic from '/images/Painter.svg'
 import join_pic from '/images/Business Plan.svg'
 import update_pic from '/images/Order Placed.svg'
-function out() {
+function headleLogout() {
     localStorage.clear();
     window.location.reload()
 }
