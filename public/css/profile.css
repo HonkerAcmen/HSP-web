@@ -1,39 +1,40 @@
-.profile-con{
+.profile-con {
     display: flex;
     height: 100vh;
     padding: 24px 107px 4px;
     flex-direction: column;
 }
 
-.profile-con .profile-top{
+.profile-con .profile-top {
     display: flex;
     width: 100%;
     height: 160px;
     flex-direction: row;
 }
 
-.profile-con .profile-top .el-avatar{
+.profile-con .profile-top .el-avatar {
     width: 160px;
     height: 160px;
     margin-right: 20px;
 }
-.profile-con .profile-top .title{
+
+.profile-con .profile-top .title {
     display: flex;
     flex-direction: column;
 }
 
-
-.profile-con .profile-top .title span{
+.profile-con .profile-top .title span {
     color: black;
     font-size: 2em;
 }
-.profile-con .profile-top .title span:not(:first-child){
+
+.profile-con .profile-top .title span:not(:first-child) {
     font-size: 16px;
     color: #636363;
     margin-top: 10px;
 }
 
-.profile-con .profile-top .button{
+.profile-con .profile-top .button {
     position: absolute;
     left: 80%;
 
@@ -46,30 +47,33 @@
     background-color: #dddddd;
     border-radius: 30px;
     cursor: pointer;
-    transition:  0.5s;
+    transition: 0.5s;
 }
 
-.profile-con .profile-top .button:hover{
+.profile-con .profile-top .button:hover {
     background-color: #c2c2c2;
 }
-.profile-con .profile-top .button:active{
+
+.profile-con .profile-top .button:active {
     background-color: #ffffff;
 }
 
-.profile-con .profile-down{
+.profile-con .profile-down {
     width: 100%;
     height: 100vh;
 }
 
-.profile-con .profile-down .infinite-list{
+.profile-con .profile-down .infinite-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
     height: 100vh;
     width: 90vw;
     margin-top: 50px;
+    place-items: center;
 }
 
-.profile-con .profile-down .infinite-list-item{
+.profile-con .profile-down .infinite-list-item {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -79,33 +83,33 @@
     margin: 10px;
     cursor: pointer;
     border-radius: 30px;
-    transition:  0.5s;
+    transition: 0.5s;
 }
 
-.profile-con .profile-down .infinite-list-item:hover{
+.profile-con .profile-down .infinite-list-item:hover {
     background: #cccccc;
 }
 
-.profile-con .profile-down .infinite-list-item:active{
+.profile-con .profile-down .infinite-list-item:active {
     background-color: #e6e6e6;
 }
 
-.profile-con .profile-down .infinite-list-item h2{
+.profile-con .profile-down .infinite-list-item h2 {
     font-size: 24px;
     font-weight: normal;
     margin-top: 10px;
 }
 
-.profile-con .profile-down .infinite-list-item h6{
+.profile-con .profile-down .infinite-list-item h6 {
     font-size: 15px;
     font-weight: normal;
     margin-top: 10px;
 }
 
-.profile-con .profile-down .infinite-list-item h6:nth-child(2){
+.profile-con .profile-down .infinite-list-item h6:nth-child(2) {
     font-size: 18px;
 }
 
-.profile-con .profile-down .infinite-list-item h6:nth-child(3){
+.profile-con .profile-down .infinite-list-item h6:nth-child(3) {
     font-weight: lighter;
 }
