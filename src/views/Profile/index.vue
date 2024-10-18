@@ -1,5 +1,6 @@
 <template>
     <HeaderNav @logout="headleLogout"></HeaderNav>
+    <Breadcrumb :items="breadcrumbItems"></Breadcrumb>
     <div class="profile-con">
         <!-- 上部分头像详情 -->
         <div class="profile-top">
@@ -39,6 +40,7 @@
 
 <script lang="ts" setup>
 import HeaderNav from "@/components/HeaderNav.vue";
+import Breadcrumb from "@/components/Breadcrumb.vue"
 import { UserFilled } from "@element-plus/icons-vue";
 import { type userCourse, testCourseData } from "@/res/dataModel";
 import { ref } from "vue";
@@ -64,6 +66,11 @@ const loadData = () => {
         loadedCourses.value = testCourseData.value.slice(0, nextCount); // 使用 .value 提取数组
     }
 };
+
+const breadcrumbItems = ref([
+    {text : '主页', link : '/'},
+    {text : '个人资料', link : '/profile'}
+])
 
 // 初始化数据
 initializeData();

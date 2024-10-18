@@ -1,0 +1,31 @@
+<template>
+    <nav class="breadcrumb">
+        <el-breadcrumb separator="/">
+            <!-- :key="index" 为每个面包屑项提供一个唯一的键，优化渲染性能。 -->
+            <el-breadcrumb-item v-for="(item, index) in items" :key="index" :to="item.link">
+                {{ item.text }}
+            </el-breadcrumb-item>
+        </el-breadcrumb>
+    </nav>
+</template>
+
+<script lang="ts" setup>
+    // 入 defineProps 函数，用于定义组件的 props。
+    import {defineProps} from 'vue'
+
+    interface BreadcrumbItem {
+        text: string
+        link: string
+    }
+    // 使用 defineProps 定义组件接收的 props，要求 items 是一个 BreadcrumbItem 数组。
+    const props = defineProps<{
+        items: BreadcrumbItem[];
+    }>()
+</script>
+
+<style scoped>
+.breadcrumb{
+    margin-top: 20px;
+    margin-left: 5rem;
+}
+</style>
