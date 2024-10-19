@@ -13,7 +13,8 @@
   "dependencies": {
     "axios": "^1.7.7",
     "element-plus": "^2.8.4",
-    "pinia": "^2.1.7",
+    "jwt-decode": "^4.0.0",
+    "pinia": "^2.2.4",
     "unplugin": "^1.14.1",
     "unplugin-element-plus": "^0.8.0",
     "vue": "^3.4.29",

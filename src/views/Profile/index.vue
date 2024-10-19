@@ -44,11 +44,19 @@ import Breadcrumb from "@/components/Breadcrumb.vue"
 import { UserFilled } from "@element-plus/icons-vue";
 import { type userCourse, testCourseData } from "@/res/dataModel";
 import { ref } from "vue";
+import axios from "axios";
+import {ServerAddress} from "@/utils/serverURL"
 
 function headleLogout() {
     localStorage.clear();
     window.location.reload();
 }
+
+async function GetUserProfile() {
+    await axios.get(ServerAddress+"/getUserInfo?")
+}
+
+// 懒加载代码
 const count = 6; // 每次加载6个数据
 const loadedCourses = ref<userCourse[]>([]); // 初始加载数据
 
@@ -67,6 +75,8 @@ const loadData = () => {
     }
 };
 
+
+//  面包屑的路径
 const breadcrumbItems = ref([
     {text : '主页', link : '/'},
     {text : '个人资料', link : '/profile'}

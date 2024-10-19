@@ -1,4 +1,5 @@
 <template>
+
     <body>
         <div class="sky">
             <div class="box">
@@ -21,11 +22,17 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import { ref, onMounted } from 'vue'; // 引入 onMounted 钩子
-import {ServerAddress} from '@/utils/serverURL'
+import { ServerAddress } from '@/utils/serverURL'
 import router from '@/router';
+import {useUserDataStore} from '@/stores/userDataStore'
+
+const store = useUserDataStore()
 
 const email = ref("")
 const passwd = ref("")
+
+// 设置邮箱到pinia
+store.setEmail(email.value)
 
 function isVaildAccount(input: string): boolean {
     const regex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -69,28 +76,31 @@ async function Login() {
         return
     }
 
-    try{
-        const res = await axios.get(ServerAddress+"/api/login?email="+email.value+"&password="+passwd.value)
+    try {
+        const res = await axios.get(ServerAddress + "/api/login?email=" + email.value + "&password=" + passwd.value)
         console.log("Login.vue Login() ===> ", res.data)
 
-        if (res.data.code != 200){
+        if (res.data.code != 200) {
             ElMessage({
                 message: res.data.message,
                 type: "error"
             })
-        }else{
+            return
+        }
+        else {
+            localStorage.setItem("token", res.data.data)
             ElMessage({
                 message: res.data.message,
                 type: 'success'
             })
-            localStorage.setItem("token", res.data.data)
             router.push("/")
         }
-    }catch(err:any){
+    } catch (err: any) {
         console.log("Login.vue Login() err ===> ", err)
     }
 
 }
+
 
 </script>
 
