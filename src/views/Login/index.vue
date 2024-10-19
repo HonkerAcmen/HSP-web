@@ -32,7 +32,7 @@ const email = ref("")
 const passwd = ref("")
 
 // 设置邮箱到pinia
-store.setEmail(email.value)
+// store.setEmail(email.value)
 
 function isVaildAccount(input: string): boolean {
     const regex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -77,8 +77,9 @@ async function Login() {
     }
 
     try {
+
         const res = await axios.get(ServerAddress + "/api/login?email=" + email.value + "&password=" + passwd.value)
-        console.log("Login.vue Login() ===> ", res.data)
+        console.log("Login.vue Login() ===> ", res.data, email)
 
         if (res.data.code != 200) {
             ElMessage({
@@ -89,6 +90,7 @@ async function Login() {
         }
         else {
             localStorage.setItem("token", res.data.data)
+            localStorage.setItem('useremail', email.value)
             ElMessage({
                 message: res.data.message,
                 type: 'success'

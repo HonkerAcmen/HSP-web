@@ -33,7 +33,6 @@ import axios from 'axios';
 import { ServerAddress } from '@/utils/serverURL';
 import router from '@/router';
 
-
 const ruleFormRef = ref<FormInstance>()
 
 function isVaildAccount(input: string): boolean {
@@ -114,29 +113,31 @@ const submitForm = (formEl: FormInstance | undefined) => {
     })
 }
 
-async function register(){
+async function register() {
     const data = {
-        email : ruleForm.email,
-        password : ruleForm.pass
+        email: ruleForm.email,
+        password: ruleForm.pass
     }
-    try{
-        const res = await axios.post(ServerAddress+"/api/register", data)
-        console.log("Register.vue Register() ===> ", res.data,data)
+    try {
+        const res = await axios.post(ServerAddress + "/api/register", data)
+        console.log("Register.vue Register() ===> ", res.data, data)
         // console.log(axios.defaults.headers)
-        if (res.data.code != 201){
+        if (res.data.code != 201) {
             ElMessage({
                 message: res.data.message,
-                type:"error"
+                type: "error"
             })
-        }else{
+        } else {
             ElMessage({
                 message: res.data.message,
                 type: "success"
             })
             localStorage.setItem("token", res.data.data)
+            localStorage.setItem('useremail', data.email)
+
             router.push("/")
         }
-    }catch (err : any){
+    } catch (err: any) {
         console.log("Register.vue Register() error ===> ", err.data)
     }
 }

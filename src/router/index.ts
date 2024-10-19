@@ -57,18 +57,16 @@ router.beforeEach((to, from, next) => {
         const tokenParts = token.split(".");
         if (tokenParts.length === 3) {
             try {
-                const decodedToken: any = jwtDecode(token);
-                if (store.email === "") {
-                    console.error("请输入邮箱");
+                const decodedToken: any = jwtDecode(token)
+                localStorage.setItem("jwtemail", decodedToken.userEmail)
+                if (!localStorage.getItem('useremail')) {
+                    console.error("请输入邮箱 um:", localStorage.getItem('useremail'));
                     ElMessage({
-                      message: "邮箱不能为空",
-                      type: "error",
-                  });
+                        message: "邮箱不能为空",
+                        type: "error",
+                    });
                     localStorage.clear();
-                } else if (
-                    decodedToken.userEmail &&
-                    store.email === decodedToken.userEmail
-                ) {
+                } else if ((decodedToken.userEmail && localStorage.getItem('useremail') === decodedToken.userEmail)) {
                     isLogin = true;
                     console.log("用户已登录");
                 }
