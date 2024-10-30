@@ -1,4 +1,5 @@
 .profile-con {
+    position: relative;
     display: flex;
     height: 100vh;
     padding: 24px 107px 4px;
@@ -65,33 +66,29 @@
 
 .profile-con .profile-down .infinite-list {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
     height: 100vh;
     width: 90vw;
     margin-top: 50px;
     place-items: center;
 }
-
-.profile-con .profile-down .infinite-list-item {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: 240px;
-    width: 290px;
-    background: #ebebeb;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 30px;
-    transition: 0.5s;
+@media screen and (max-width: 1060px) {
+    .profile-con .profile-down .infinite-list {
+        grid-template-columns: 1fr 1fr ;
+    }
 }
 
-.profile-con .profile-down .infinite-list-item:hover {
-    background: #cccccc;
+@media screen and (min-width: 1600px) {
+    .profile-con .profile-down .infinite-list {
+        grid-template-columns: 1fr 1fr 1fr 1fr ;
+    }
 }
 
-.profile-con .profile-down .infinite-list-item:active {
-    background-color: #e6e6e6;
+@media screen and (min-width: 1900px) {
+    .profile-con .profile-down .infinite-list {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
 }
 
 .profile-con .profile-down .infinite-list-item h2 {

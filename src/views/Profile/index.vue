@@ -6,20 +6,25 @@
         <div class="profile-top">
             <div class="avatar"><el-avatar :icon="UserFilled" /></div>
             <div class="title">
-                <span>{{ userinfo.userName }}</span><span>性别: {{ userinfo.gender }} </span><span>{{userinfo.email}}</span><span>{{ userinfo.userDesc }}</span>
+                <span>{{ userinfo.userName }}</span>
+                <span>性别: {{ userinfo.gender }}</span>
+                <span>{{ userinfo.email }}</span>
+                <span>{{ userinfo.userDesc }}</span>
             </div>
-            <div class="button">修改个人信息</div>
+            <div class="button">
+                <a href="/modifyProfile">修改个人信息</a>
+            </div>
         </div>
-
         <!-- 下部分，加入的课程 -->
         <div class="profile-down">
             <ul v-infinite-scroll="loadData" :infinite-scroll-disabled="loadedCourses.length >= testCourseData.length"
                 :infinite-scroll-distance="10" class="infinite-list" style="overflow: auto">
-                <li v-for="i in loadedCourses" :key="i.courseName" class="infinite-list-item" @click="">
+                <el-card class="infinite-list-item" style="width: 400px; height: 200px;" shadow="hover"
+                    v-for="i in loadedCourses" :key="i.courseName">
                     <h2>{{ i.courseName }}</h2>
                     <h6>教师: {{ i.coursePerson }}</h6>
                     <h6>{{ i.courseDesc }}</h6>
-                </li>
+                </el-card>
             </ul>
         </div>
     </div>
@@ -30,7 +35,7 @@ import HeaderNav from "@/components/HeaderNav.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import { UserFilled } from "@element-plus/icons-vue";
 import { type userCourse, testCourseData } from "@/res/dataModel";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { ServerAddress } from "@/utils/serverURL";
 import { ElMessage } from "element-plus";
@@ -50,45 +55,49 @@ const userinfo = ref({
     userDesc: ""
 });
 
-// 获取用户信息
+// 更新用户信息的函数
+const updateUserInfo = (data: any) => {
+    userinfo.value = {
+        email: data.email || "无",
+        userName: data.userName || "你没有名字哦",
+        gender: (data.gender == 1 ? "男" : "女"),
+        profileImg: data.profileImg || "",
+        userDesc: data.userDesc || "来写点什么，彰显你的个性吧"
+    };
+};
+
+// 获取用户信息并更新 localStorage
 async function GetUserProfile() {
     try {
         const res = await axios.get(ServerAddress + "/api/getUserInfo/" + localStorage.getItem('token'));
-        if (res.data.code !== 200) {
-            ElMessage({
-                message: res.data.message,
-                type: 'error'
-            });
-            return;
-        } else {
-            localStorage.setItem("userdata", JSON.stringify(res.data.data)); // 存储数据
-            userinfo.value = {
-                email: res.data.data.email || "无",
-                userName: res.data.data.userName || "无名氏",
-                gender: res.data.data.gender || "不明",
-                profileImg: res.data.data.profileImg || "", // 添加这一行
-                userDesc: res.data.data.userDesc || "来写点什么，彰显你的个性吧"
-            };
-        }
+
+        localStorage.setItem("userdata", JSON.stringify(res.data.data)); // 存储数据
+        updateUserInfo(res.data.data);
     } catch (err: any) {
         console.error(err); // 记录错误
+        ElMessage({
+            message: err.response.data.message,
+            type: 'error'
+        })
+        return
     }
 }
+
 // 在组件挂载时获取用户信息
 onMounted(() => {
-    if (localStorage.getItem("userdata") == null) {
-        GetUserProfile();
-    } else {
-        const userdata = JSON.parse(localStorage.getItem("userdata") || '{}');
-        userinfo.value = {
-            email: userdata.email || "无",
-            userName: userdata.userName || "无名氏",
-            gender: userdata.gender || "不明",
-            profileImg: userdata.profileImg || "", // 添加这一行
-            userDesc: userdata.userDesc || "来写点什么，彰显你的个性吧"
-        };
-    }
+    GetUserProfile(); // 直接请求用户信息并更新
 });
+
+// 监听 localStorage 中 userdata 的变化
+watch(
+    () => localStorage.getItem("userdata"),
+    (newValue) => {
+        if (newValue) {
+            const parsedData = JSON.parse(newValue);
+            updateUserInfo(parsedData);
+        }
+    }
+);
 
 // 懒加载代码
 const count = 6; // 每次加载6个数据
@@ -96,7 +105,7 @@ const loadedCourses = ref<userCourse[]>([]); // 初始加载数据
 
 // 初始化加载前6个数据
 const initializeData = () => {
-    loadedCourses.value = testCourseData.value.slice(0, count); // 使用 .value 提取数组
+    loadedCourses.value = testCourseData.value.slice(0, count);
 };
 
 // 加载更多数据
@@ -105,7 +114,7 @@ const loadData = () => {
     if (nextCount >= testCourseData.value.length) {
         loadedCourses.value = testCourseData.value; // 所有数据已加载完成
     } else {
-        loadedCourses.value = testCourseData.value.slice(0, nextCount); // 使用 .value 提取数组
+        loadedCourses.value = testCourseData.value.slice(0, nextCount);
     }
 };
 

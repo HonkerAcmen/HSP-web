@@ -1,0 +1,28 @@
+.customzation-bar{
+    position: relative;
+    padding-bottom: 30px;
+
+    /* 虚线 */
+    border-bottom: 1px #d3d3d3 solid;
+}
+
+.customzation-bar .title-customzation{
+    width: 100%;
+    height: 40px;
+    padding-top: 14px;
+}
+
+.customzation-bar .title-customzation span{
+    margin-left: 80px;
+    font-size: 24px;
+}
+
+.customzation-con{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.customzation-con .el-form-item:nth-child(5){
+    margin-left: 28em;
+}

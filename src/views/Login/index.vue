@@ -24,7 +24,7 @@ import { ElMessage } from 'element-plus';
 import { ref, onMounted } from 'vue'; // 引入 onMounted 钩子
 import { ServerAddress } from '@/utils/serverURL'
 import router from '@/router';
-import {useUserDataStore} from '@/stores/userDataStore'
+import { useUserDataStore } from '@/stores/userDataStore'
 
 const store = useUserDataStore()
 
@@ -80,25 +80,20 @@ async function Login() {
 
         const res = await axios.get(ServerAddress + "/api/login?email=" + email.value + "&password=" + passwd.value)
         console.log("Login.vue Login() ===> ", res.data, email)
+        localStorage.setItem("token", res.data.data)
+        localStorage.setItem('useremail', email.value)
+        ElMessage({
+            message: res.data.message,
+            type: 'success'
+        })
+        router.push("/")
 
-        if (res.data.code != 200) {
-            ElMessage({
-                message: res.data.message,
-                type: "error"
-            })
-            return
-        }
-        else {
-            localStorage.setItem("token", res.data.data)
-            localStorage.setItem('useremail', email.value)
-            ElMessage({
-                message: res.data.message,
-                type: 'success'
-            })
-            router.push("/")
-        }
     } catch (err: any) {
         console.log("Login.vue Login() err ===> ", err)
+        ElMessage({
+            message: err.response.data.message,
+            type: 'error'
+        })
     }
 
 }
