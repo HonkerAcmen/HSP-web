@@ -139,6 +139,10 @@ async function register() {
         }
     } catch (err: any) {
         console.log("Register.vue Register() error ===> ", err.data)
+        ElMessage({
+            message: err.data,
+            type: "error"
+        })
     }
 }
 

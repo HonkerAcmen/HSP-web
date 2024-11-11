@@ -6,7 +6,7 @@
                 <p>欢迎来到纸飞机<br>你现在可以…</p>
             </div>
             <div class="cards">
-                <el-card shadow="hover" header="创建课程"><img :src="create_pic" alt=""></el-card>
+                <a href="/createCourse"><el-card shadow="hover" header="创建课程"><img :src="create_pic" alt=""></el-card></a>
                 <el-card shadow="hover" header="加入课程"><img :src="join_pic" alt=""></el-card>
                 <el-card shadow="hover" header="提交作业"><img :src="update_pic" alt=""></el-card>
             </div>

@@ -5,7 +5,7 @@ import Register from "@/views/Register/index.vue";
 import Layout from "@/views/Layout/index.vue";
 import Profile from "@/views/Profile/index.vue";
 import ModifyProfile from "@/views/ModifyProfile/index.vue"
-
+import createCourse from "@/views/CreateCourse/index.vue"
 import { jwtDecode } from "jwt-decode";
 import { ElMessage } from "element-plus";
 import { useUserDataStore } from "@/stores/userDataStore";
@@ -51,6 +51,11 @@ const router = createRouter({
             path: "/modifyProfile",
             name:"ModifyPrrfile",
             component: ModifyProfile,
+        },
+        {
+            path: "/createCourse",
+            name: "CreateCourse",
+            component: createCourse
         }
     ],
 });
