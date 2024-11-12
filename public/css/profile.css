@@ -67,11 +67,12 @@
 .profile-con .profile-down .infinite-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    height: 100vh;
+    height: 100%;
     width: 90vw;
     margin-top: 50px;
-    place-items: center;
+    align-items: start; /* 垂直对齐方式为顶部 */
+    justify-items: start; /* 水平对齐方式为左侧 */
+    gap: 20px; 
 }
 @media screen and (max-width: 1060px) {
     .profile-con .profile-down .infinite-list {
@@ -101,10 +102,6 @@
     font-size: 15px;
     font-weight: normal;
     margin-top: 10px;
-}
-
-.profile-con .profile-down .infinite-list-item h6:nth-child(2) {
-    font-size: 18px;
 }
 
 .profile-con .profile-down .infinite-list-item h6:nth-child(3) {

@@ -39,23 +39,34 @@ import { type UploadFile, type FormInstance, type FormRules, ElMessage } from "e
 import axios from "axios";
 import { ServerAddress } from "@/utils/serverURL";
 
-// Functions and variables
+// 面包屑的路径
 const breadcrumbItems = [
     { text: '主页', link: '/' },
     { text: '创建课程', link: '/createCourse' }
 ];
 
+// 上传组件的实体
 const upload = ref();
+
+// 文件是否过大
 const isFileTooLarge = ref(false);
+
+// 文件类型是否错误
 const isFileType = ref(true);
+
+// form的实体
 const ruleFormRef = ref<FormInstance>();
+
+// form的数据类型
 const ruleform = ref({
-    courseName: '',
-    courseDesc: '',
-    courseImg: '' // This will be the field to store the Base64 data
+    courseName: '', // 课程名称
+    courseDesc: '', // 课程描述
+    courseImg: '',   // 课程图片
+    courseImgSize: 0 // 课程图片大小
 });
 
-// Validation rules
+
+// 验证逻辑
 const validCourseName = (rule: any, value: any, callback: any) => {
     if (!value) callback(new Error('课程名称不能为空'));
     else if (String(value).length > 20) callback(new Error('课程名称不能超过20个字符'));
@@ -79,30 +90,33 @@ const rules: FormRules = {
     courseImg: [{ validator: validCourseImg, trigger: 'blur' }]
 };
 
-// File change handler
+// 文件处理
 const handleFileChange = (file: UploadFile) => {
     const SIZE_LIMIT = 500 * 1024; // 500 KB
 
-    // Check file size and type
+    // 当文件大小存在且文件存在时
     if (file.size && file.raw) {
+
+        // 如果过大
         if (file.size > SIZE_LIMIT) {
             isFileTooLarge.value = true;
             ElMessage.error('文件过大，无法上传');
             return;
         }
-
         isFileTooLarge.value = false;
 
-        // Check file type
+        // 检查文件的类型
         const validTypes = ['image/jpeg', 'image/png'];
         if (!validTypes.includes(file.raw.type)) {
             isFileType.value = false;
             return;
         }
-
         isFileType.value = true;
 
-        // Convert to Base64
+
+        ruleform.value.courseImgSize =  file.size
+        
+        // 将文件转换为Base64编码
         const reader = new FileReader();
         reader.onload = () => {
             ruleform.value.courseImg = reader.result as string;
@@ -112,18 +126,21 @@ const handleFileChange = (file: UploadFile) => {
     }
 };
 
-// Handle file exceed limit
+
+// 检测文件是否超过规定的数量
 const handleExceed = (files: UploadFile[]) => {
     alert("只能上传一个文件!");
 };
 
-// Handle logout
+
+// 登出逻辑
 const headleLogout = () => {
     localStorage.clear();
     window.location.reload();
 };
 
-// Handle form submission
+
+// 提交表单
 const submitForm = () => {
     const token = localStorage.getItem('token');
     ruleFormRef.value?.validate((valid) => {
@@ -144,6 +161,7 @@ const submitForm = () => {
     });
 };
 </script>
+
 
 <style scoped>
 @import '/css/CreateCourse.css';

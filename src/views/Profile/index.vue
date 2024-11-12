@@ -22,7 +22,6 @@
                 <el-card class="infinite-list-item" style="width: 400px; height: 200px;" shadow="hover"
                     v-for="i in loadedCourses" :key="i.courseName">
                     <h2>{{ i.courseName }}</h2>
-                    <h6>教师: {{ i.coursePerson }}</h6>
                     <h6>{{ i.courseDesc }}</h6>
                 </el-card>
             </ul>
@@ -34,11 +33,12 @@
 import HeaderNav from "@/components/HeaderNav.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import { UserFilled } from "@element-plus/icons-vue";
-import { type userCourse, testCourseData } from "@/res/dataModel";
+import { type userCourse, getCourseData, testCourseData } from "@/res/dataModel";
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { ServerAddress } from "@/utils/serverURL";
 import { ElMessage } from "element-plus";
+
 
 // 处理登出
 function headleLogout() {
@@ -70,7 +70,7 @@ const updateUserInfo = (data: any) => {
 async function GetUserProfile() {
     try {
         const res = await axios.get(ServerAddress + "/api/getUserInfo/" + localStorage.getItem('token'));
-
+        getCourseData()
         localStorage.setItem("userdata", JSON.stringify(res.data.data)); // 存储数据
         updateUserInfo(res.data.data);
     } catch (err: any) {
@@ -106,6 +106,7 @@ const loadedCourses = ref<userCourse[]>([]); // 初始加载数据
 // 初始化加载前6个数据
 const initializeData = () => {
     loadedCourses.value = testCourseData.value.slice(0, count);
+    console.log(testCourseData.value.slice(0, count))
 };
 
 // 加载更多数据

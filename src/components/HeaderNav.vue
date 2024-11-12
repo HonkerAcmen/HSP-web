@@ -2,19 +2,22 @@
   <div class="header-nav container">
     <div class="head">
       <ul>
-        <li><span><a href="#">作业</a></span></li>
-        <li><span><a href="#">课程</a></span></li>
+        <li><span><a href="#">我的作业</a></span></li>
+        <li><span><a href="#">我的课程</a></span></li>
+        <li>
+
+          <el-dropdown>
+            <el-avatar :icon="UserFilled" />
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item><a href="/profile">个人主页</a></el-dropdown-item>
+                <el-dropdown-item @click="handleLogout">登出</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </li>
       </ul>
       <div class="paper-plane plane-1"></div>
-      <el-dropdown>
-        <el-avatar :icon="UserFilled" />
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item><a href="/profile">个人主页</a></el-dropdown-item>
-            <el-dropdown-item @click="handleLogout">登出</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
     </div>
   </div>
 </template>
@@ -37,17 +40,34 @@ const handleLogout = () => {
   height: 60px;
   box-shadow: 0px 1px 7px #7c7c7c;
   margin-bottom: 13px;
+  display: flex;
+  justify-content: flex-end;
+  /* 将内容靠右 */
+  align-items: center;
+  padding-right: 20px;
+  /* 调整右侧间距 */
 }
 
-.head .el-dropdown {
-  position: relative;
+.head ul {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  /* 调整 li 之间的间距 */
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.head .el-dropdown .el-avatar {
-  position: absolute;
-  top: 10px;
-  left: 94vw;
-  transition: 0.5s;
+.head li {
+  display: flex;
+  align-items: center;
+}
+.head span a:hover{
+  color: #000000;
+}
+
+.head .el-avatar{
+  transition: 0.3s;
 }
 
 .head .el-avatar:hover {
@@ -91,28 +111,5 @@ const handleLogout = () => {
   100% {
     transform: translateX(100vw) translateY(0) rotate(0deg);
   }
-}
-
-.head ul {
-  position: absolute;
-  display: flex;
-  left: 80%;
-  top: 7px;
-}
-
-.head ul li {
-  margin: 10px 30px;
-}
-
-.head ul li span a {
-  font-size: 14px;
-  color: #1c1c1c;
-  font-weight: bolder;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.head ul li span a:hover {
-  color: #676767;
 }
 </style>
