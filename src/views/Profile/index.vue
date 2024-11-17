@@ -1,5 +1,5 @@
 <template>
-    <HeaderNav @logout="headleLogout"></HeaderNav>
+    <HeaderNav @logout="handleLogout"></HeaderNav>
     <Breadcrumb :items="breadcrumbItems"></Breadcrumb>
     <div class="profile-con">
         <!-- 上部分头像详情 -->
@@ -17,14 +17,19 @@
         </div>
         <!-- 下部分，加入的课程 -->
         <div class="profile-down">
-            <ul v-infinite-scroll="loadData" :infinite-scroll-disabled="loadedCourses.length >= testCourseData.length"
-                :infinite-scroll-distance="10" class="infinite-list" style="overflow: auto">
-                <el-card class="infinite-list-item" style="width: 400px; height: 200px;" shadow="hover"
-                    v-for="i in loadedCourses" :key="i.courseName">
-                    <h2>{{ i.courseName }}</h2>
+            <ul v-if="isData" v-infinite-scroll="loadData"
+                :infinite-scroll-disabled="loadedCourses.length >= testCourseData.length" :infinite-scroll-distance="10"
+                class="infinite-list" style="overflow: auto">
+                <li class="infinite-list-li" v-for="i in loadedCourses" :key="i.courseName">
+                    <el-card class="infinite-list-item" style="width: 400px; height: 200px;" shadow="hover">
+                        <!-- 使用 img 标签显示 Base64 图片 -->
+                        <img :src="i.courseImg" alt="Course Image" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </el-card>
                     <h6>{{ i.courseDesc }}</h6>
-                </el-card>
+                    <h2>{{ i.courseName }}</h2>
+                </li>
             </ul>
+            <el-empty v-if="!isData" :image-size="200" description="该用户没有创建或者加入的课程" />
         </div>
     </div>
 </template>
@@ -33,15 +38,14 @@
 import HeaderNav from "@/components/HeaderNav.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import { UserFilled } from "@element-plus/icons-vue";
-import { type userCourse, getCourseData, testCourseData } from "@/res/dataModel";
+import { type userCourse, getCourseData, testCourseData, isData } from "@/res/dataModel";
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { ServerAddress } from "@/utils/serverURL";
 import { ElMessage } from "element-plus";
 
-
 // 处理登出
-function headleLogout() {
+function handleLogout() {
     localStorage.clear();
     window.location.reload();
 }
@@ -70,16 +74,16 @@ const updateUserInfo = (data: any) => {
 async function GetUserProfile() {
     try {
         const res = await axios.get(ServerAddress + "/api/getUserInfo/" + localStorage.getItem('token'));
-        getCourseData()
+        getCourseData();
         localStorage.setItem("userdata", JSON.stringify(res.data.data)); // 存储数据
         updateUserInfo(res.data.data);
     } catch (err: any) {
         console.error(err); // 记录错误
         ElMessage({
-            message: err.response.data.message,
+            message: err.response?.data?.message || '获取用户信息失败',
             type: 'error'
-        })
-        return
+        });
+        return;
     }
 }
 
@@ -106,7 +110,7 @@ const loadedCourses = ref<userCourse[]>([]); // 初始加载数据
 // 初始化加载前6个数据
 const initializeData = () => {
     loadedCourses.value = testCourseData.value.slice(0, count);
-    console.log(testCourseData.value.slice(0, count))
+    console.log(testCourseData.value.slice(0, count));
 };
 
 // 加载更多数据

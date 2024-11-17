@@ -92,18 +92,13 @@
     }
 }
 
-.profile-con .profile-down .infinite-list-item h2 {
-    font-size: 24px;
-    font-weight: normal;
-    margin-top: 10px;
+.infinite-list-li h6{
+    font-size: 16px;
+    font-weight: 400;
+    color: #5e5e5e;
 }
 
-.profile-con .profile-down .infinite-list-item h6 {
-    font-size: 15px;
+.infinite-list-li h2{
+    font-size: 28px;
     font-weight: normal;
-    margin-top: 10px;
-}
-
-.profile-con .profile-down .infinite-list-item h6:nth-child(3) {
-    font-weight: lighter;
 }

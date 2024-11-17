@@ -2,7 +2,7 @@
     <nav class="breadcrumb">
         <el-breadcrumb separator="/">
             <!-- :key="index" 为每个面包屑项提供一个唯一的键，优化渲染性能。 -->
-            <el-breadcrumb-item v-for="(item, index) in items" :key="index" :to="item.link">
+            <el-breadcrumb-item class="bread-item" v-for="(item, index) in items" :key="index" :to="item.link">
                 {{ item.text }}
             </el-breadcrumb-item>
         </el-breadcrumb>
@@ -27,5 +27,8 @@
 .breadcrumb{
     margin-top: 20px;
     margin-left: 5rem;
+}
+.bread-item {
+    font-size: 17px;
 }
 </style>

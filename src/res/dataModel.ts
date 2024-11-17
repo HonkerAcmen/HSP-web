@@ -18,16 +18,18 @@ export interface userCourse {
 }
 
 export let testCourseData = ref<userCourse[]>([])
-
+export let isData = ref(false)
 export async function getCourseData() {
     const token = localStorage.getItem('token')
     if (token!=null){
        await axios.get(ServerAddress+'/api/getAllUserCourse?jwt='+token)
        .then((res) =>{
-        console.log(res.data.data)
+        console.log("dataModel.ts ==>"+res.data.data)
         testCourseData.value = res.data.data
+        isData.value = true
        })
        .catch((err) =>{
+        isData.value = false
         console.error(err)
        })
     }
