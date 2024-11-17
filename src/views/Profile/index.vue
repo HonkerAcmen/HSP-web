@@ -20,13 +20,10 @@
             <ul v-if="isData" v-infinite-scroll="loadData"
                 :infinite-scroll-disabled="loadedCourses.length >= testCourseData.length" :infinite-scroll-distance="10"
                 class="infinite-list" style="overflow: auto">
-                <li class="infinite-list-li" v-for="i in loadedCourses" :key="i.courseName">
-                    <el-card class="infinite-list-item" style="width: 400px; height: 200px;" shadow="hover">
-                        <!-- 使用 img 标签显示 Base64 图片 -->
-                        <img :src="i.courseImg" alt="Course Image" style="width: 100%; height: 100%; object-fit: cover;" />
-                    </el-card>
-                    <h6>{{ i.courseDesc }}</h6>
-                    <h2>{{ i.courseName }}</h2>
+                <li class="infinite-list-li" v-for="i in loadedCourses" :key="i.courseName" style="width: 74%;">
+                        <img class="infinite-list-li-img" :src="i.courseImg" />
+                        <h6>{{ i.courseDesc }}</h6>
+                         <h2>{{ i.courseName }}</h2>
                 </li>
             </ul>
             <el-empty v-if="!isData" :image-size="200" description="该用户没有创建或者加入的课程" />

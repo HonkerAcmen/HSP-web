@@ -30,7 +30,7 @@
 }
 
 .common-layout .container-2 .el-card:active{
-    background-color: #d5d5d5;
+    opacity: 0.1;
 }
 .common-layout .container-2 .cards .el-card__body{
     padding: 0;
