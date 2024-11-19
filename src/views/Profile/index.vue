@@ -70,7 +70,9 @@ const updateUserInfo = (data: any) => {
 // 获取用户信息并更新 localStorage
 async function GetUserProfile() {
     try {
-        const res = await axios.get(ServerAddress + "/api/getUserInfo/" + localStorage.getItem('token'));
+        const res = await axios.get(ServerAddress + "/api/getUserInfo", {
+            withCredentials:true
+        });
         getCourseData();
         localStorage.setItem("userdata", JSON.stringify(res.data.data)); // 存储数据
         updateUserInfo(res.data.data);

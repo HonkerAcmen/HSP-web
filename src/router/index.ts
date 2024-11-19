@@ -1,23 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router";
-
 import Login from "@/views/Login/index.vue";
 import Register from "@/views/Register/index.vue";
 import Layout from "@/views/Layout/index.vue";
 import Profile from "@/views/Profile/index.vue";
-import ModifyProfile from "@/views/ModifyProfile/index.vue"
-import createCourse from "@/views/CreateCourse/index.vue"
-import { jwtDecode } from "jwt-decode";
+import ModifyProfile from "@/views/ModifyProfile/index.vue";
+import createCourse from "@/views/CreateCourse/index.vue";
 import { ElMessage } from "element-plus";
-import { useUserDataStore } from "@/stores/userDataStore";
+import { useCookies } from "@vueuse/integrations/useCookies";
+
+const cookies = useCookies();
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        {
-            path: "/",
-            name: "layout",
-            component: Layout,
-        },
+        { path: "/", name: "layout", component: Layout },
         {
             path: "/login",
             name: "login",
@@ -42,68 +38,19 @@ const router = createRouter({
                 }
             },
         },
-        {
-            path: "/profile",
-            name: "Profile",
-            component: Profile,
-        },
-        {
-            path: "/modifyProfile",
-            name:"ModifyPrrfile",
-            component: ModifyProfile,
-        },
-        {
-            path: "/createCourse",
-            name: "CreateCourse",
-            component: createCourse
-        }
+        { path: "/profile", name: "Profile", component: Profile },
+        { path: "/modifyProfile", name: "ModifyProfile", component: ModifyProfile },
+        { path: "/createCourse", name: "CreateCourse", component: createCourse }
     ],
 });
 
 router.beforeEach((to, from, next) => {
-    const store = useUserDataStore();
     const token = localStorage.getItem("token");
-    let isLogin = false;
 
-    if (token) {
-        const tokenParts = token.split(".");
-        if (tokenParts.length === 3) {
-            try {
-                const decodedToken: any = jwtDecode(token)
-                localStorage.setItem("jwtemail", decodedToken.userEmail)
-                if (!localStorage.getItem('useremail')) {
-                    console.error("请输入邮箱 um:", localStorage.getItem('useremail'));
-                    ElMessage({
-                        message: "邮箱不能为空",
-                        type: "error",
-                    });
-                    localStorage.clear();
-                } else if ((decodedToken.userEmail && localStorage.getItem('useremail') === decodedToken.userEmail)) {
-                    isLogin = true;
-                    console.log("用户已登录");
-                }
-            } catch (error) {
-                console.error("JWT 解码失败:", error);
-                ElMessage({
-                    message: "无效的用户凭证",
-                    type: "error",
-                });
-                localStorage.clear();
-            }
-        } else {
-            console.warn("无效的 token 格式");
-            ElMessage({
-                message: "无效的用户凭证",
-                type: "error",
-            });
-            localStorage.clear();
-        }
-    }
-
-    if (isLogin || to.path === "/login" || to.path === "/register") {
-        next();
+    if (token || to.path === "/login" || to.path === "/register") {
+        next();  // 允许访问
     } else {
-        next("/login");
+        next("/login");  // 重定向到登录页面
     }
 });
 

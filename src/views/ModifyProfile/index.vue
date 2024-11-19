@@ -126,7 +126,9 @@ const rules = reactive<FormRules<typeof ruleform>>({
 
 async function submitModifyData(userdata: any, token: string) {
     try {
-        const res = await axios.put(ServerAddress + "/api/modifyUserInfo/" + token, userdata)
+        const res = await axios.put(ServerAddress + "/api/modifyUserInfo", userdata, {
+            withCredentials: true
+        })
         console.log(res.data.data)
         ElMessage({
             message: '修改成功, 请重新登陆',

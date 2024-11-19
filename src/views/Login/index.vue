@@ -78,12 +78,12 @@ async function Login() {
 
     try {
 
-        const res = await axios.get(ServerAddress + "/api/login?email=" + email.value + "&password=" + passwd.value)
+        const res = await axios.get(ServerAddress + "/auth/login?email=" + email.value + "&password=" + passwd.value)
         console.log("Login.vue Login() ===> ", res.data, email)
-        localStorage.setItem("token", res.data.data)
         localStorage.setItem('useremail', email.value)
+        localStorage.setItem("token", res.data.data)
         ElMessage({
-            message: res.data.message,
+            message: '登陆成功',
             type: 'success'
         })
         router.push("/")

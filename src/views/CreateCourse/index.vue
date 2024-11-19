@@ -189,30 +189,6 @@ const handleLogout = () => {
     window.location.reload();
 };
 
-// 提交表单
-const submitForm = () => {
-    const token = localStorage.getItem('token');
-    ruleFormRef.value?.validate((valid) => {
-        if (valid) {
-            if (token) {
-                axios.post(`${ServerAddress}/api/createCourse/${token}`, ruleform.value)
-                    .then((response) => {
-                        ElMessage.success('课程创建成功');
-                        setTimeout(() => window.location.reload(), 700);
-                    })
-                    .catch((error) => {
-                        console.error("提交失败:", error);
-                        ElMessage.error('课程创建失败，请重试');
-                    });
-            } else {
-                ElMessage.error('token错误, 请重新登陆');
-            }
-        } else {
-            ElMessage.error("表单验证失败，请检查输入内容!");
-        }
-    });
-};
-
 // 获取裁剪后的图片
 const getCroppedImage = () => {
     if (cropperInstance.value) {
@@ -239,6 +215,34 @@ const getCroppedImage = () => {
         }, 'image/png');
     }
 };
+
+// 提交表单
+const submitForm = () => {
+    const token = localStorage.getItem('token');
+    ruleFormRef.value?.validate((valid) => {
+        if (valid) {
+            if (token) {
+                axios.post(`${ServerAddress}/api/createCourse`, ruleform.value, {
+                    withCredentials:true
+                })
+                    .then((response) => {
+                        ElMessage.success('课程创建成功');
+                        setTimeout(() => window.location.reload(), 700);
+                    })
+                    .catch((error) => {
+                        console.error("提交失败:", error);
+                        ElMessage.error('课程创建失败，请重试');
+                    });
+            } else {
+                ElMessage.error('token错误, 请重新登陆');
+            }
+        } else {
+            ElMessage.error("表单验证失败，请检查输入内容!");
+        }
+    });
+};
+
+
 
 // 重置裁剪对话框
 const resetCropper = () => {

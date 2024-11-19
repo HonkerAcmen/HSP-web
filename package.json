@@ -11,11 +11,15 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "@vueuse/core": "^11.2.0",
+    "@vueuse/integrations": "^11.2.0",
     "axios": "^1.7.7",
     "cropperjs": "^1.6.2",
     "element-plus": "^2.8.4",
+    "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.2.4",
+    "universal-cookie": "^7.2.2",
     "unplugin": "^1.14.1",
     "unplugin-element-plus": "^0.8.0",
     "vue": "^3.4.29",
@@ -24,6 +28,7 @@
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.14.5",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/tsconfig": "^0.5.1",

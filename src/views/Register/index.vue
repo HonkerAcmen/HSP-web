@@ -32,6 +32,7 @@ import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import axios from 'axios';
 import { ServerAddress } from '@/utils/serverURL';
 import router from '@/router';
+import Cookies from 'js-cookie'
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -112,6 +113,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
         }
     })
 }
+function getCookie(name: string): string | undefined {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return match[2];
+    return undefined;
+}
 
 async function register() {
     const data = {
@@ -119,32 +125,34 @@ async function register() {
         password: ruleForm.pass
     }
     try {
-        const res = await axios.post(ServerAddress + "/api/register", data)
+        const res = await axios.post(ServerAddress + "/auth/register", data, {
+            withCredentials: true,  // 确保发送请求时带上 Cookies
+        })
         console.log("Register.vue Register() ===> ", res.data, data)
-        // console.log(axios.defaults.headers)
+
         if (res.data.code != 201) {
             ElMessage({
-                message: res.data.message,
+                message: "此账号已被注册",
                 type: "error"
             })
         } else {
+            localStorage.setItem('useremail', data.email)
+            localStorage.setItem('token', res.data.data)
             ElMessage({
-                message: res.data.message,
+                message: '注册成功',
                 type: "success"
             })
-            localStorage.setItem("token", res.data.data)
-            localStorage.setItem('useremail', data.email)
-
             router.push("/")
         }
     } catch (err: any) {
         console.log("Register.vue Register() error ===> ", err.data)
         ElMessage({
-            message: err.data,
-            type: "error"
-        })
+                message: "此账号已被注册",
+                type: "error"
+            })
     }
 }
+
 
 </script>
 

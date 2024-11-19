@@ -22,7 +22,9 @@ export let isData = ref(false)
 export async function getCourseData() {
     const token = localStorage.getItem('token')
     if (token!=null){
-       await axios.get(ServerAddress+'/api/getAllUserCourse?jwt='+token)
+       await axios.get(ServerAddress+'/api/getAllUserCourse', {
+        withCredentials: true
+       })
        .then((res) =>{
         console.log("dataModel.ts ==>"+res.data.data)
         testCourseData.value = res.data.data
