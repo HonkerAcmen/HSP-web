@@ -1,6 +1,6 @@
 <template>
     <div class="common-layout">
-        <header-nav @logout="handleLogout"></header-nav>
+        <header-nav ></header-nav>
         <div class="container-2">
             <div class="sub-title">
                 <p>
@@ -107,10 +107,6 @@ onMounted(() => {
     showTextsInOrder(0); // 启动文本显示循环
 });
 
-function handleLogout() {
-    localStorage.clear();
-    window.location.reload();
-}
 
 function handleCourseSelection(url: string) {
     router.push(url);

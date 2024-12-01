@@ -1,5 +1,5 @@
 <template>
-    <HeaderNav @logout="logout"></HeaderNav>
+    <HeaderNav ></HeaderNav>
     <Breadcrumb :items="breadcrumbItems"></Breadcrumb>
 
     <div class="customzation-bar">
@@ -57,13 +57,6 @@ const ruleform = ref({
     email: ''
 })
 
-
-
-
-function logout() {
-    localStorage.clear()
-    window.location.reload();
-}
 
 function isVaildEmail(input: string): boolean {
     const regex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

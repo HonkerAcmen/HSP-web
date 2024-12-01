@@ -1,5 +1,5 @@
 <template>
-    <HeaderNav @logout="handleLogout"></HeaderNav>
+    <HeaderNav></HeaderNav>
     <Breadcrumb :items="breadcrumbItems"></Breadcrumb>
 
     <div class="con">
@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
+import { ref } from "vue";
 import { type UploadFile, type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus";
 import HeaderNav from "@/components/HeaderNav.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
@@ -183,11 +183,6 @@ const handleExceed = (files: UploadFile[]) => {
     ElMessage.warning("只能上传一个文件!");
 };
 
-// 登出逻辑
-const handleLogout = () => {
-    localStorage.clear();
-    window.location.reload();
-};
 
 // 获取裁剪后的图片
 const getCroppedImage = () => {

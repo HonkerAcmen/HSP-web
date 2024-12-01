@@ -11,8 +11,10 @@ export interface userData {
 }
 
 export interface userCourse {
+    courseID: number;
     courseName: string;
     courseDesc: string;
+    owner: string, 
     courseImg: string;
     courseImgSize:number
 }
@@ -23,16 +25,15 @@ export async function getCourseData() {
     const token = localStorage.getItem('token')
     if (token!=null){
        await axios.get(ServerAddress+'/api/getAllUserCourse', {
-        withCredentials: true
+            withCredentials: true
        })
        .then((res) =>{
-        console.log("dataModel.ts ==>"+res.data.data)
-        testCourseData.value = res.data.data
-        isData.value = true
+            testCourseData.value = res.data.data
+            isData.value = true
        })
        .catch((err) =>{
-        isData.value = false
-        console.error(err)
+            isData.value = false
+            console.error(err)
        })
     }
 }

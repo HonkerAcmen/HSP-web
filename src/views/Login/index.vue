@@ -78,7 +78,9 @@ async function Login() {
 
     try {
 
-        const res = await axios.get(ServerAddress + "/auth/login?email=" + email.value + "&password=" + passwd.value)
+        const res = await axios.get(ServerAddress + "/auth/login?email=" + email.value + "&password=" + passwd.value, {
+            withCredentials: true
+        })
         console.log("Login.vue Login() ===> ", res.data, email)
         localStorage.setItem('useremail', email.value)
         localStorage.setItem("token", res.data.data)

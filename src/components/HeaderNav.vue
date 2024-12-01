@@ -26,11 +26,11 @@
 import { UserFilled } from '@element-plus/icons-vue'
 import { defineEmits } from 'vue'
 
-const emit = defineEmits(['logout'])
 
 const handleLogout = () => {
-  emit('logout')
-}
+    localStorage.clear();
+    window.location.reload();
+};
 </script>
 
 <style scoped>

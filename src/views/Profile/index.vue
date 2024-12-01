@@ -1,5 +1,5 @@
 <template>
-    <HeaderNav @logout="handleLogout"></HeaderNav>
+    <HeaderNav></HeaderNav>
     <Breadcrumb :items="breadcrumbItems"></Breadcrumb>
     <div class="profile-con">
         <!-- 上部分头像详情 -->
@@ -21,9 +21,12 @@
                 :infinite-scroll-disabled="loadedCourses.length >= testCourseData.length" :infinite-scroll-distance="10"
                 class="infinite-list" style="overflow: auto">
                 <li class="infinite-list-li" v-for="i in loadedCourses" :key="i.courseName" style="width: 74%;">
+                    <!-- 动态绑定课程 ID -->
+                    <a :href="'/courseDetails/' + i.courseID">
                         <img class="infinite-list-li-img" :src="i.courseImg" />
+                        <h2>{{ i.courseName }}</h2>
                         <h6>{{ i.courseDesc }}</h6>
-                         <h2>{{ i.courseName }}</h2>
+                    </a>
                 </li>
             </ul>
             <el-empty v-if="!isData" :image-size="200" description="该用户没有创建或者加入的课程" />
@@ -41,11 +44,6 @@ import axios from "axios";
 import { ServerAddress } from "@/utils/serverURL";
 import { ElMessage } from "element-plus";
 
-// 处理登出
-function handleLogout() {
-    localStorage.clear();
-    window.location.reload();
-}
 
 // 响应式用户信息
 const userinfo = ref({
@@ -71,7 +69,7 @@ const updateUserInfo = (data: any) => {
 async function GetUserProfile() {
     try {
         const res = await axios.get(ServerAddress + "/api/getUserInfo", {
-            withCredentials:true
+            withCredentials: true
         });
         getCourseData();
         localStorage.setItem("userdata", JSON.stringify(res.data.data)); // 存储数据

@@ -108,16 +108,17 @@
 }
 .infinite-list-li .infinite-list-li-img{
     height: 180px; 
+    width: 325px;
     object-fit: cover; 
-    border-radius: 100px;
+    border-radius: 30px;
+    border: 1px #5e5e5e solid;
     transition: 0.5s;
     cursor: pointer;
 }
 .infinite-list-li .infinite-list-li-img:hover{
     margin: 10px;
     transform: scale(1.05);
-    border-radius: 70px;
-    /* border: 10px #c2c2c2 solid; */
+    border-radius: 15px;
 }
 
 .infinite-list-li .infinite-list-li-img:active{

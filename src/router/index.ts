@@ -5,10 +5,7 @@ import Layout from "@/views/Layout/index.vue";
 import Profile from "@/views/Profile/index.vue";
 import ModifyProfile from "@/views/ModifyProfile/index.vue";
 import createCourse from "@/views/CreateCourse/index.vue";
-import { ElMessage } from "element-plus";
-import { useCookies } from "@vueuse/integrations/useCookies";
-
-const cookies = useCookies();
+import CourseDetails from "@/views/CourseDetails/index.vue"
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,7 +37,8 @@ const router = createRouter({
         },
         { path: "/profile", name: "Profile", component: Profile },
         { path: "/modifyProfile", name: "ModifyProfile", component: ModifyProfile },
-        { path: "/createCourse", name: "CreateCourse", component: createCourse }
+        { path: "/createCourse", name: "CreateCourse", component: createCourse },
+        { path: "/courseDetails/:id", name: "CourseDetails", component: CourseDetails, props:true}
     ],
 });
 
