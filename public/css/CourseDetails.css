@@ -27,3 +27,28 @@
     font-size: 17px;
     font-weight: 400;
 }
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #ff3b93;
+    width: 170px;
+    height: 55px;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition: 0.5s;
+}
+
+.button:hover{
+    background-color: #ff68ac;
+}
+
+.button:active{
+    background-color: #ffcce3;
+}

@@ -17,7 +17,6 @@
           </el-dropdown>
         </li>
       </ul>
-      <div class="paper-plane plane-1"></div>
     </div>
   </div>
 </template>
@@ -86,30 +85,4 @@ const handleLogout = () => {
   clip-path: polygon(50% 0%, 0% 100%, 50% 80%, 100% 100%);
 }
 
-.plane-1 {
-  left: -100px;
-  animation: fly1 6s ease-in-out infinite;
-}
-
-@keyframes fly1 {
-  0% {
-    transform: translateX(0) translateY(0) rotate(0deg);
-  }
-
-  25% {
-    transform: translateX(25vw) translateY(-5vh) rotate(30deg);
-  }
-
-  50% {
-    transform: translateX(50vw) translateY(0) rotate(0deg);
-  }
-
-  75% {
-    transform: translateX(75vw) translateY(10vh) rotate(-30deg);
-  }
-
-  100% {
-    transform: translateX(100vw) translateY(0) rotate(0deg);
-  }
-}
 </style>

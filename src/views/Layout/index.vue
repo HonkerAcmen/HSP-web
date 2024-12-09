@@ -9,12 +9,12 @@
                 </p>
             </div>
             <div class="cards">
-                <a href="/createCourse" @click.prevent="handleCourseSelection('/createCourse')">
+                <a href="" @click.prevent="handleCourseSelection('/createCourse')">
                     <el-card shadow="hover" header="创建课程">
                         <img :src="create_pic" alt="">
                     </el-card>
                 </a>
-                <a href="#" @click.prevent="handleCourseSelection('#')">
+                <a href="" @click.prevent="handleCourseSelection('joinCourse')">
                     <el-card shadow="hover" header="加入课程">
                         <img :src="join_pic" alt="">
                     </el-card>
@@ -69,7 +69,7 @@ const typeText = (text: string, callback: Function) => {
     typeCharacter(); // 启动打字任务
 };
 
-/** 回退效果 */
+// 回退
 const resetText = (currentText: string, callback: Function) => {
     let index = currentText.length - 1;
 

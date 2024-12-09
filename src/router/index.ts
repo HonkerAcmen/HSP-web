@@ -6,6 +6,7 @@ import Profile from "@/views/Profile/index.vue";
 import ModifyProfile from "@/views/ModifyProfile/index.vue";
 import createCourse from "@/views/CreateCourse/index.vue";
 import CourseDetails from "@/views/CourseDetails/index.vue"
+import JoinCourse from "@/views/JoinCourse/index.vue"
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,7 +39,8 @@ const router = createRouter({
         { path: "/profile", name: "Profile", component: Profile },
         { path: "/modifyProfile", name: "ModifyProfile", component: ModifyProfile },
         { path: "/createCourse", name: "CreateCourse", component: createCourse },
-        { path: "/courseDetails/:id", name: "CourseDetails", component: CourseDetails, props:true}
+        { path: "/courseDetails/:id", name: "CourseDetails", component: CourseDetails, props:true},
+        { path: "/joinCourse", name: "JoinCourse", component: JoinCourse}
     ],
 });
 

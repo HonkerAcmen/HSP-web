@@ -180,7 +180,7 @@ const handleFileChange = (file: UploadFile) => {
 
 // 检测文件是否超过规定的数量
 const handleExceed = (files: UploadFile[]) => {
-    ElMessage.warning("只能上传一个文件!");
+    ElMessage.warning("只能上传一个文件, 请刷新");
 };
 
 

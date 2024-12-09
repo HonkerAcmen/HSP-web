@@ -17,8 +17,8 @@
         </div>
         <!-- 下部分，加入的课程 -->
         <div class="profile-down">
-            <ul v-if="isData" v-infinite-scroll="loadData"
-                :infinite-scroll-disabled="loadedCourses.length >= testCourseData.length" :infinite-scroll-distance="10"
+            <ul v-if="courseStore.isDatas" v-infinite-scroll="loadData"
+                :infinite-scroll-disabled="loadedCourses.length >= courseStore.coursesData.length" :infinite-scroll-distance="10"
                 class="infinite-list" style="overflow: auto">
                 <li class="infinite-list-li" v-for="i in loadedCourses" :key="i.courseName" style="width: 74%;">
                     <!-- 动态绑定课程 ID -->
@@ -29,7 +29,7 @@
                     </a>
                 </li>
             </ul>
-            <el-empty v-if="!isData" :image-size="200" description="该用户没有创建或者加入的课程" />
+            <el-empty v-if="!courseStore.isDatas" :image-size="200" description="该用户没有创建或者加入的课程" />
         </div>
     </div>
 </template>
@@ -38,14 +38,15 @@
 import HeaderNav from "@/components/HeaderNav.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import { UserFilled } from "@element-plus/icons-vue";
-import { type userCourse, getCourseData, testCourseData, isData } from "@/res/dataModel";
+import { type userCourse, type userData } from "@/res/dataModel";
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { ServerAddress } from "@/utils/serverURL";
 import { ElMessage } from "element-plus";
+import {useCourseStore} from '@/stores/userCourseStore'
 
-
-// 响应式用户信息
+const courseStore = useCourseStore()
+// 显示在网页上的信息
 const userinfo = ref({
     email: "",
     userName: "",
@@ -71,7 +72,8 @@ async function GetUserProfile() {
         const res = await axios.get(ServerAddress + "/api/getUserInfo", {
             withCredentials: true
         });
-        getCourseData();
+        // getCourseData();
+        courseStore.getUserCoursesData()
         localStorage.setItem("userdata", JSON.stringify(res.data.data)); // 存储数据
         updateUserInfo(res.data.data);
     } catch (err: any) {
@@ -106,17 +108,18 @@ const loadedCourses = ref<userCourse[]>([]); // 初始加载数据
 
 // 初始化加载前6个数据
 const initializeData = () => {
-    loadedCourses.value = testCourseData.value.slice(0, count);
-    console.log(testCourseData.value.slice(0, count));
+    loadedCourses.value = courseStore.coursesData.slice(0, count);
+    // console.log(courseStore.courseData.slice(0, count));
 };
 
 // 加载更多数据
 const loadData = () => {
     const nextCount = loadedCourses.value.length + count;
-    if (nextCount >= testCourseData.value.length) {
-        loadedCourses.value = testCourseData.value; // 所有数据已加载完成
+    if (nextCount >= courseStore.coursesData.length) {
+        loadedCourses.value = courseStore.coursesData; // 所有数据已加载完成
+        console.log(loadedCourses.value)
     } else {
-        loadedCourses.value = testCourseData.value.slice(0, nextCount);
+        loadedCourses.value = courseStore.coursesData.slice(0, nextCount);
     }
 };
 

@@ -1,0 +1,62 @@
+.search-course {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-course ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.search-course li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 3px 3px 3px 3px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.search-course li:hover{
+  border-radius: 5px;
+  background-color: #ccc;
+}
+
+.search-course li:active{
+  background-color: #383838;
+}
+
+.search-course img {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+.search-course img:hover{
+  width: 75px;
+  height: 75px;
+}
+
+.search-course h3 {
+  font-size: 18px;
+  margin: 0;
+  margin-right: 10px;
+}
+
+.search-course p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
