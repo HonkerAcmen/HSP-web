@@ -7,13 +7,31 @@ import { ref } from "vue";
 
 export const useCourseStore = defineStore('courseStore', () => {
     
+    // 该用户所有已创建课程数据
     const coursesData = ref<userCourse[]>([])
+
+    // 该用户某个课程的数据
     const courseData = ref<userCourse>()
+
+    // 所有课程的数据
     const allCourseData = ref<userCourse[]>([])
 
-    const isDatas = ref(false)
-    const isData = ref(false)
-    const isDataAllCourse = ref(false)
+    /// 该用户加入的课程的数据
+    const joinCourseData = ref<userCourse[]> ([])
+
+    // 获取该用户加入的课程的数据
+    async function getUserJoinedCourses() {
+        await axios
+        .get(ServerAddress + "/api/getJoinedCourses", {
+            withCredentials: true
+        })
+        .then((res) => {
+            joinCourseData.value = res.data.data
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+    }
 
     // 获取该用户所有的课程
     async function  getUserCoursesData (){
@@ -23,10 +41,8 @@ export const useCourseStore = defineStore('courseStore', () => {
         })
         .then((res) => {
             coursesData.value = res.data.data;
-            isDatas.value = true;
         })
         .catch((err) => {
-            isDatas.value = false;
             console.error(err);
         });
     }
@@ -39,10 +55,8 @@ export const useCourseStore = defineStore('courseStore', () => {
         })
         .then((res) => {
             courseData.value = res.data.data;
-            isData.value = true;
         })
         .catch((err) => {
-            isData.value = false;
             console.error(err);
         });
     }
@@ -55,19 +69,16 @@ export const useCourseStore = defineStore('courseStore', () => {
         })
         .then((res) => {
             allCourseData.value = res.data.data;
-            isDataAllCourse.value = true;
         })
         .catch((err) => {
-            isDataAllCourse.value = false;
             console.error(err);
         });
     }
     return {
         coursesData,
-        isDatas,
-        isData,
-        isDataAllCourse,
         allCourseData,
+        getUserJoinedCourses,
+        joinCourseData,
         getCoursesData,
         getUserCourseData,
         getUserCoursesData

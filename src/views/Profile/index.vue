@@ -15,21 +15,42 @@
                 <a href="/modifyProfile">修改个人信息</a>
             </div>
         </div>
+
         <!-- 下部分，加入的课程 -->
         <div class="profile-down">
-            <ul v-if="courseStore.isDatas" v-infinite-scroll="loadData"
-                :infinite-scroll-disabled="loadedCourses.length >= courseStore.coursesData.length" :infinite-scroll-distance="10"
-                class="infinite-list" style="overflow: auto">
-                <li class="infinite-list-li" v-for="i in loadedCourses" :key="i.courseName" style="width: 74%;">
-                    <!-- 动态绑定课程 ID -->
-                    <a :href="'/courseDetails/' + i.courseID">
-                        <img class="infinite-list-li-img" :src="i.courseImg" />
-                        <h2>{{ i.courseName }}</h2>
-                        <h6>{{ i.courseDesc }}</h6>
+            <el-menu class="profile-menu" :default-active="selectMenuIndex" mode="horizontal" @select="handleMenuSelect">
+                <el-menu-item index="1">已加入课程</el-menu-item>
+                <el-menu-item index="2">已创建课程</el-menu-item>
+            </el-menu>
+
+            <!-- 已加入的课程 -->
+            <ul v-if="selectMenuIndex === '1' && loadedCourses.length > 0" v-infinite-scroll="loadData"
+                :infinite-scroll-disabled="loadedCourses.length >= courseStore.joinCourseData.length"
+                :infinite-scroll-distance="10" class="infinite-list" style="overflow: auto">
+                <li class="infinite-list-li" v-for="course in loadedCourses" :key="course.courseID" style="width: 74%;">
+                    <a :href="'/courseDetails/' + course.courseID">
+                        <img class="infinite-list-li-img" :src="course.courseImg" />
+                        <h2>{{ course.courseName }}</h2>
+                        <h6>{{ course.courseDesc }}</h6>
                     </a>
                 </li>
             </ul>
-            <el-empty v-if="!courseStore.isDatas" :image-size="200" description="该用户没有创建或者加入的课程" />
+
+            <!-- 已创建的课程 -->
+            <ul v-if="selectMenuIndex === '2' && loadedCourses.length > 0" v-infinite-scroll="loadData"
+                :infinite-scroll-disabled="loadedCourses.length >= courseStore.coursesData.length"
+                :infinite-scroll-distance="10" class="infinite-list" style="overflow: auto">
+                <li class="infinite-list-li" v-for="course in loadedCourses" :key="course.courseID" style="width: 74%;">
+                    <a :href="'/courseDetails/' + course.courseID">
+                        <img class="infinite-list-li-img" :src="course.courseImg" />
+                        <h2>{{ course.courseName }}</h2>
+                        <h6>{{ course.courseDesc }}</h6>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- 空数据时显示 -->
+            <el-empty v-else :image-size="200" description="该用户没有创建或者加入的课程" />
         </div>
     </div>
 </template>
@@ -38,15 +59,16 @@
 import HeaderNav from "@/components/HeaderNav.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import { UserFilled } from "@element-plus/icons-vue";
-import { type userCourse, type userData } from "@/res/dataModel";
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 import { ServerAddress } from "@/utils/serverURL";
 import { ElMessage } from "element-plus";
-import {useCourseStore} from '@/stores/userCourseStore'
+import { useCourseStore } from "@/stores/userCourseStore";
+import type { userCourse } from "@/res/dataModel";
 
-const courseStore = useCourseStore()
-// 显示在网页上的信息
+const courseStore = useCourseStore();
+
+// 用户信息
 const userinfo = ref({
     email: "",
     userName: "",
@@ -55,43 +77,67 @@ const userinfo = ref({
     userDesc: ""
 });
 
-// 更新用户信息的函数
+// 当前选中的菜单项
+const selectMenuIndex = ref("1");
+
+// 已加载的课程
+const loadedCourses = ref<userCourse[]>([]);
+
+// 每次加载的课程数量
+const count = 6;
+
+// 切换菜单时加载数据
+const handleMenuSelect = (index: string) => {
+    selectMenuIndex.value = index;
+    initializeData(); // 初始化数据
+};
+
+// 初始化数据
+const initializeData = () => {
+    const source = selectMenuIndex.value === "1" ? courseStore.joinCourseData : courseStore.coursesData;
+    loadedCourses.value = source.slice(0, count);
+};
+
+// 加载更多数据
+const loadData = () => {
+    const source = selectMenuIndex.value === "1" ? courseStore.joinCourseData : courseStore.coursesData;
+    const nextCount = loadedCourses.value.length + count;
+    if (nextCount >= source.length) {
+        loadedCourses.value = source;
+    } else {
+        loadedCourses.value = source.slice(0, nextCount);
+    }
+};
+
+// 更新用户信息
 const updateUserInfo = (data: any) => {
     userinfo.value = {
         email: data.email || "无",
         userName: data.userName || "你没有名字哦",
-        gender: (data.gender == 1 ? "男" : "女"),
+        gender: data.gender === 1 ? "男" : "女",
         profileImg: data.profileImg || "",
         userDesc: data.userDesc || "来写点什么，彰显你的个性吧"
     };
 };
 
-// 获取用户信息并更新 localStorage
+// 获取用户信息
 async function GetUserProfile() {
     try {
         const res = await axios.get(ServerAddress + "/api/getUserInfo", {
             withCredentials: true
         });
-        // getCourseData();
-        courseStore.getUserCoursesData()
-        localStorage.setItem("userdata", JSON.stringify(res.data.data)); // 存储数据
+        localStorage.setItem("userdata", JSON.stringify(res.data.data));
         updateUserInfo(res.data.data);
+        await courseStore.getUserJoinedCourses();
+        await courseStore.getUserCoursesData();
+        initializeData(); // 初始化数据
     } catch (err: any) {
-        console.error(err); // 记录错误
-        ElMessage({
-            message: err.response?.data?.message || '获取用户信息失败',
-            type: 'error'
-        });
-        return;
+        console.error(err);
+        ElMessage.error(err.response?.data?.message || "获取用户信息失败");
     }
 }
 
-// 在组件挂载时获取用户信息
-onMounted(() => {
-    GetUserProfile(); // 直接请求用户信息并更新
-});
-
-// 监听 localStorage 中 userdata 的变化
+// 监听 localStorage 变化
 watch(
     () => localStorage.getItem("userdata"),
     (newValue) => {
@@ -102,36 +148,18 @@ watch(
     }
 );
 
-// 懒加载代码
-const count = 6; // 每次加载6个数据
-const loadedCourses = ref<userCourse[]>([]); // 初始加载数据
-
-// 初始化加载前6个数据
-const initializeData = () => {
-    loadedCourses.value = courseStore.coursesData.slice(0, count);
-    // console.log(courseStore.courseData.slice(0, count));
-};
-
-// 加载更多数据
-const loadData = () => {
-    const nextCount = loadedCourses.value.length + count;
-    if (nextCount >= courseStore.coursesData.length) {
-        loadedCourses.value = courseStore.coursesData; // 所有数据已加载完成
-        console.log(loadedCourses.value)
-    } else {
-        loadedCourses.value = courseStore.coursesData.slice(0, nextCount);
-    }
-};
+// 组件挂载时加载数据
+onMounted(() => {
+    GetUserProfile();
+});
 
 // 面包屑的路径
 const breadcrumbItems = ref([
     { text: '主页', link: '/' },
     { text: '个人资料', link: '/profile' }
 ]);
-
-// 初始化数据
-initializeData();
 </script>
+
 
 <style>
 @import "/css/profile.css";

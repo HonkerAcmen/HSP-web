@@ -124,3 +124,7 @@
 .infinite-list-li .infinite-list-li-img:active{
     opacity: 0.5;
 }
+
+.profile-menu{
+    margin-top: 30px;
+}
